@@ -11,5 +11,6 @@ private:
 public:
     void registerUser(const User& user);
     void loginUser(const string& login, const string& password);
-    void processMessages();
+    void sendChatMessage(const User& sender, const std::string& message);
+    void startConsoleChat();
 };
