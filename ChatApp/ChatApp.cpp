@@ -64,6 +64,7 @@ void sendMessage(User& user) {
 
 // Основная функция программы
 int main() {
+ setlocale (LC_ALL, "RU");
     try {
         // Регистрация
         char choice;
