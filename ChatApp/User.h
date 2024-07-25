@@ -1,15 +1,25 @@
 #pragma once
 #include <string>
-using namespace std;
-
 class User {
 private:
-    string login;
-    string password;
-    string name;
+    std::string login;
+    std::string password;
+
 public:
-    User(string login, string password, string name);
-    string getLogin();
-    string getPassword();
-    string getName();
+    User();
+    // Конструктор по умолчанию
+    User() : login(""), password("") {}
+
+    // Конструктор с параметрами
+    User(const std::string& login, const std::string& password)
+        : login(login), password(password) {}
+
+    std::string getLogin() const {
+        return login;
+    }
+
+    std::string getPassword() const {
+        return password;
+    }
+ 
 };
