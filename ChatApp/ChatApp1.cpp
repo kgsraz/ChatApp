@@ -3,18 +3,41 @@
 using namespace std;
 
 void ChatApp::registerUser(const User& user) {
-    // Логика регистрации нового пользователя определена здесь
+    // Р›РѕРіРёРєР° СЂРµРіРёСЃС‚СЂР°С†РёРё РЅРѕРІРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РѕРїСЂРµРґРµР»РµРЅР° Р·РґРµСЃСЊ
 }
 
 void ChatApp::loginUser(const std::string& login, const std::string& password) {
-    // Логика входа пользователя определена здесь
+    // Р›РѕРіРёРєР° РІС…РѕРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РѕРїСЂРµРґРµР»РµРЅР° Р·РґРµСЃСЊ
 }
 
-void ChatApp::processMessages() {
-    try {
-        // Логика обработки входящих и исходящих сообщений
+void ChatApp::sendChatMessage(const User& sender, const std::string& message) {
+    chatRoom.sendMessage(sender, message);
+}
+
+void ChatApp::startConsoleChat() {
+    std::string userInput;
+    User currentUser;
+
+    std::cout << "Р’РІРµРґРёС‚Рµ Р»РѕРіРёРЅ: ";
+    std::cin >> userInput;
+    std::string login = userInput;
+
+    std::cout << "Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ: ";
+    std::cin >> userInput;
+    std::string password = userInput;
+
+    bool userFound = false;
+    for (const User& user : registeredUsers) {
+        if (user.getLogin() == login && user.getPassword() == password) {
+            currentUser = user;
+            userFound = true;
+            break;
+        }
     }
-    catch (const ChatException& e) {
-        cout << "Произошла ошибка: " << e.what() << endl;
+
+    if (!userFound) {
+        throw std::runtime_error("РќРµРІРµСЂРЅС‹Р№ Р»РѕРіРёРЅ РёР»Рё РїР°СЂРѕР»СЊ. РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·.");
     }
+
+    // Р›РѕРіРёРєР° РѕР±СЂР°Р±РѕС‚РєРё СѓСЃРїРµС€РЅРѕРіРѕ РІС…РѕРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 }
