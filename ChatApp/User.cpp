@@ -1,19 +1,18 @@
 #include "User.h"
 #include <string>
 #include <iostream>
-using namespace std;
+User::User() : login(""), password("") {}
 
-User::User(string login, string password, string name)
-    : login(login), password(password), name(name) {}
+// Конструктор с параметрами
+User::User(const std::string& login, const std::string& password)
+    : login(login), password(password) {}
 
-string User::getLogin() {
+// Метод для получения логина
+std::string User::getLogin() const {
     return login;
 }
 
-string User::getPassword() {
+// Метод для получения пароля
+std::string User::getPassword() const {
     return password;
-}
-
-string User::getName() {
-    return name;
 }
