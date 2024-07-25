@@ -1,27 +1,102 @@
-﻿#include <iostream>
+#include <iostream>
 #include "User.h"
 #include "ChatRoom.h"
 #include "ChatApp1.h"
-using namespace std;
+#include <stdexcept>
+#include <vector>
+#include <map>
+ 
 
+std::map<std::string, User> users; // Хранение пользователей по логину
+
+// Функция для регистрации пользователя
+void registerUser() {
+    std::string login;
+    std::string password;
+
+    std::cout << "Введите логин: ";
+    std::getline(std::cin, login);
+
+    std::cout << "Введите пароль: ";
+    std::getline(std::cin, password);
+
+    if (users.find(login) != users.end()) {
+        throw std::invalid_argument("Пользователь с таким логином уже существует.");
+    }
+
+    users[login] = User(login, password);
+    std::cout << "Пользователь \"" << login << "\" зарегистрирован!" << std::endl;
+}
+
+// Функция для логина пользователя
+User loginUser() {
+    std::string login;
+    std::string password;
+
+    std::cout << "Введите логин для входа: ";
+    std::getline(std::cin, login);
+
+    std::cout << "Введите пароль: ";
+    std::getline(std::cin, password);
+
+    auto it = users.find(login);
+    if (it != users.end() && it->second.getPassword() == password) {
+        std::cout << "Пользователь \"" << login << "\" вошел в систему!" << std::endl;
+        return it->second;
+    }
+
+    throw std::invalid_argument("Неверный логин или пароль.");
+}
+
+// Функция для отправки сообщения
+void sendMessage(User& user) {
+    std::string recipient;
+    std::string content;
+
+    std::cout << "Введите логин получателя: ";
+    std::getline(std::cin, recipient);
+
+    std::cout << "Введите сообщение: ";
+    std::getline(std::cin, content);
+
+    
+}
+
+// Основная функция программы
 int main() {
-    setlocale(LC_ALL, "RU");
     try {
-        User user1("@aaaa", "1234", "Alice");
-        User user2("@bbbb", "5678", "Peter");
+        // Регистрация
+        char choice;
+        std::cout << "Вы хотите зарегистрироваться? (y/n): ";
+        std::cin >> choice;
+        std::cin.ignore();
 
-        ChatRoom chatRoom;
-        chatRoom.addUser(user1);
-        chatRoom.addUser(User("@cccc", "letmein", "Charlie")); 
+        if (choice == 'y') {
+            registerUser();
+        }
 
-        chatRoom.sendMessage(user2, "Привет, Alice!");
+        // Логин
+        User loggedInUser = loginUser();
 
+        // Отправка сообщений
+        while (true) {
+            sendMessage(loggedInUser);
+            std::cout << "Хотите отправить еще одно сообщение? (y/n): ";
+            std::cin >> choice;
+            std::cin.ignore();
+            if (choice != 'y') {
+                break;
+            }
+        }
     }
-    catch (const ChatException& ex) {
-        cerr << "Произошла ошибка в чате: " << ex.what() << endl;
+    catch (const std::invalid_argument& e) {
+        std::cerr << "Ошибка: " << e.what() << std::endl;
     }
-    catch (const std::exception& ex) {
-        cerr << "Произошла неизвестная ошибка: " << ex.what() << endl;
+    catch (const std::exception& e) {
+        std::cerr << "Произошла непредвиденная ошибка: " << e.what() << std::endl;
+    }
+    catch (...) {
+        std::cerr << "Произошла неизвестная ошибка." << std::endl;
     }
 
     return 0;
